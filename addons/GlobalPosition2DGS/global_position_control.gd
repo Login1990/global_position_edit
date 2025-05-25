@@ -43,7 +43,7 @@ func _process(delta: float) -> void:
 	if(!_line_editY.has_focus()):
 		_line_editY.text = str(object.global_position.y)
 	if(!_line_edit_rot.has_focus()):
-		_line_edit_rot.text = str(object.global_rotation)
+		_line_edit_rot.text = str(object.global_rotation_degrees)
 
 func _edit_x(new_x : String) -> void:
 	if new_x.is_valid_float() and object:
@@ -89,18 +89,18 @@ func  _edit_y(new_y : String) -> void:
 func _edit_rot(new_rot : String):
 	if new_rot.is_valid_float() and object:
 		var new_val = new_rot.to_float()
-		var old_rot = object.global_rotation
+		var old_rot = object.global_rotation_degrees
 		if undo_redo and new_val != old_rot:
 			undo_redo.create_action("Change global rotation")
-			undo_redo.add_do_property(object, "global_rotation", new_val)
+			undo_redo.add_do_property(object, "global_rotation_degrees", new_val)
 			undo_redo.add_do_property(_line_edit_rot, "text", str(new_val))
-			undo_redo.add_undo_property(object, "global_rotation", old_rot)
+			undo_redo.add_undo_property(object, "global_rotation_degrees", old_rot)
 			undo_redo.add_undo_property(_line_edit_rot, "text", str(old_rot))
 			undo_redo.commit_action()
 		else:
-			object.global_rotation = new_rot.to_float()
+			object.global_rotation_degrees = new_rot.to_float()
 	else:
-		_line_edit_rot.text = str(object.global_rotation)
+		_line_edit_rot.text = str(object.global_rotation_degrees)
 	
 func set_undo_redo(undo_redo_instance: EditorUndoRedoManager):
 	undo_redo = undo_redo_instance
